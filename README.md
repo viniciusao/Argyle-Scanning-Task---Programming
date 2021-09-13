@@ -12,7 +12,7 @@
  2. **Docker**:
       <br>
       <br>
-      1 - `git clone this_repo` ; `cd this_repo` ; docker build . -t argyle_test:latest
+      1 - `git clone this_repo` ; `cd this_repo` ; *docker build . -t argyle_test:latest*
       <br>
       <br>
       2 - **run** modes:
