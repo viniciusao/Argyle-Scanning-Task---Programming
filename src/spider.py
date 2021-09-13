@@ -3,6 +3,7 @@ from datetime import datetime
 import json
 import logging
 import os
+import pathlib
 import re
 import sqlite3
 from typing import Mapping, Sequence
@@ -21,6 +22,7 @@ load_dotenv()
 
 class ScrapingUpWork:
     def __init__(self):
+        self.db_path = str(pathlib.Path(__file__).parent.resolve())+'/argyle_test.db'
         self.cookie = None
         self.user_agent = None
         self.header = eval(os.environ['DEFAULT_H'])
@@ -31,7 +33,7 @@ class ScrapingUpWork:
         self.url_profile_details = 'https://www.upwork.com/freelancers/api/v1/freelancer/profile/{}/details'
 
     async def get_xsfr_token(self, credential: Sequence):
-        async with aiosqlite.connect('argyle_test.db') as db:
+        async with aiosqlite.connect(self.db_path) as db:
             j = await db.execute(f'INSERT INTO tasks (login_id, status, created) VALUES ({credential[0]}, "pending", "{datetime.now().strftime("%d/%m/%Y %H:%M:%S")}")')
             self.task_id: int = j.lastrowid
             await db.commit()
@@ -118,9 +120,10 @@ async def go():
 if __name__ == '__main__':
     formatter = "[%(asctime)s] %(name)s {%(filename)s:%(lineno)d} %(levelname)s - %(message)s"
     logging.basicConfig(level=logging.INFO, format=formatter)
-    con_s = sqlite3.connect('argyle_test.db')
+    con_s = sqlite3.connect(str(pathlib.Path(__file__).parent.resolve())+'/argyle_test.db')
     cursor = con_s.cursor()
     logins = cursor.execute('SELECT id, username, password from logins').fetchall()
+    print(logins)
     cursor.close()
     con_s.close()
     asyncio.run(go())
