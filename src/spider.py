@@ -123,7 +123,6 @@ if __name__ == '__main__':
     con_s = sqlite3.connect(str(pathlib.Path(__file__).parent.resolve())+'/argyle_test.db')
     cursor = con_s.cursor()
     logins = cursor.execute('SELECT id, username, password from logins').fetchall()
-    print(logins)
     cursor.close()
     con_s.close()
     asyncio.run(go())
