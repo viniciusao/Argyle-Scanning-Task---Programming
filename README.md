@@ -5,7 +5,7 @@
       1 - `git clone this_repo` ; `cd this_repo` ; `pip install flit`; `flit install`
       <br>
       <br>
-      2 - **python run src/spider.py**
+      2 - **python src/spider.py**
       <br>
       <br>
 
